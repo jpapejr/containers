@@ -1,0 +1,65 @@
+function title {
+  printf "\033]0;%s\007" "$1"
+}
+
+
+ic () {
+    ibmcloud $@
+}
+
+iks () {
+    ibmcloud ks $@
+}
+
+iccr () {
+    ibmcloud cr $@
+}
+
+kcfg () {
+    $(ic ks cluster-config --cluster ${1:-jtpape-mycluster} --export)
+    export INGRESS_HOST=`ic ks cluster-get ${1:-jtpape-mycluster} | grep "Ingress Subdomain:" | awk '{print $3}'`
+    export KCFG=${1:-jtpape-mycluster}
+    title "IKS: $KCFG"
+    k?
+}
+
+kdash () {
+    : ${KUBECONFIG:?"Need to set the env var KUBECONFIG before starting the dashboard"}
+    kubectl config view -o jsonpath='{.users[0].user.auth-provider.config.id-token}' | pbcopy
+    kubectl proxy --port 8001 &
+    DASH_PID=$!
+    echo "Kubernetes dashboard started.  PID=$DASH_PID"
+    echo "id-token is stored in your pastebin"
+    open http://localhost:8001/api/v1/namespaces/kube-system/services/https:kubernetes-dashboard:/proxy/
+}
+
+k () {
+   kubectl $@ 
+}
+
+k? () {
+   echo "$(tput setaf 4)⎈ $(tput sgr0) Currently targeting cluster [$(tput setaf 1)$(kubectl config current-context)$(tput sgr0)]"
+}
+
+v () {
+   vagrant $@
+}
+
+d? () {
+   echo "$(tput setaf 4)🐳 $(tput sgr0) Currently targeting Docker host [$(tput setaf 1)$(docker-machine active)$(tput sgr0)]"
+}
+
+#
+# Get open IBM Cloud incidents
+incidents() {
+curl -s https://cloud.ibm.com/status/getIncidences\?tz\=Etc/UTC | jq '.statusItems[] | select(.type == "incident") | select(.state != "resolved") | "ID:               "+.id+"\nTitle:            "+.shortDescription+"\nStart Time (UTC): "+((.outageStart/1000) | todate)+"\nRegions:          "+(.regions|join(", "))+"\nService:          "+.name+"\n\n"' -r
+}
+
+export -f ic
+export -f iks
+export -f iccr
+export -f kcfg
+export -f kdash
+export -f k
+export -f v
+export -f incidents
