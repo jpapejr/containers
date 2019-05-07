@@ -1,8 +1,23 @@
 FROM ubuntu:18.04 
 LABEL maintainer="jpapejr@icloud.com"
 ENV TERM xterm-256color
-RUN apt update && apt install curl -y && apt clean
-#RUN ln -s /lib/ /lib64 # FIXME: Remove for Alpine >= 3.6
-RUN curl -L "https://clis.ng.bluemix.net/download/bluemix-cli/latest/linux64" | tar -zx -C /usr/local/bin && chmod +x /usr/local/bin/Bluemix_CLI/bin/ibmcloud && chmod +x /usr/local/bin/Bluemix_CLI/bin/cfcli/cf
-RUN curl -L 'https://github.com/stedolan/jq/releases/download/jq-1.5/jq-linux64' -o /usr/local/bin/jq && chmod +x /usr/local/bin/jq
-ENTRYPOINT ["/usr/local/bin/Bluemix_CLI/bin/ibmcloud"]
+RUN apt update && apt install curl bash-completion -y && apt clean
+RUN curl -sL https://ibm.biz/idt-installer | bash
+ADD https://github.com/wercker/stern/releases/download/1.10.0/stern_linux_amd64 /usr/local/bin/stern
+ADD https://github.com/stedolan/jq/releases/download/jq-1.5/jq-linux64 /usr/local/bin/jq
+ADD https://github.com/sharkdp/bat/releases/download/v0.10.0/bat-musl_0.10.0_amd64.deb /root/bat.deb
+RUN dpkg -i /root/bat.deb
+RUN echo "alias k='kubectl'" >> /root/.bash_aliases \
+    && echo "alias ic='ibmcloud'" >> /root/.bash_aliases \
+    && echo "alias iks='ibmcloud ks'" >> /root/.bash_aliases \
+    && echo "source /usr/share/bash-completion/bash_completion" >> /root/.bashrc \
+    && echo 'source <(kubectl completion bash)' >> /root/.bashrc
+RUN kubectl completion bash >/etc/bash_completion.d/kubectl \
+    && helm completion bash >/etc/bash_completion.d/helm
+RUN ibmcloud plugin install -f infrastructure-service
+COPY get-iks-configs.sh /usr/local/bin/get-iks-configs.sh
+COPY iks-merged-config.sh /usr/local/bin/iks-merged-config.sh
+RUN chmod -R +x /usr/local/bin/*
+ENTRYPOINT ["tail","-f","/dev/null"]
+EXPOSE 8001
+#docker run -d -v $HOME:/Users/jtpape -P --name ibmcloud --hostname ibmcloud ibmcloud:latest
