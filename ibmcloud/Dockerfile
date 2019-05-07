@@ -6,12 +6,13 @@ RUN curl -sL https://ibm.biz/idt-installer | bash
 ADD https://github.com/wercker/stern/releases/download/1.10.0/stern_linux_amd64 /usr/local/bin/stern
 ADD https://github.com/stedolan/jq/releases/download/jq-1.5/jq-linux64 /usr/local/bin/jq
 ADD https://github.com/sharkdp/bat/releases/download/v0.10.0/bat-musl_0.10.0_amd64.deb /root/bat.deb
+ADD https://github.com/derailed/k9s/releases/download/0.6.5/k9s_0.6.5_Linux_x86_64.tar.gz /usr/local/bin/k9s.tgz
+RUN cd /usr/local/bin/ && tar xvfz /usr/local/bin/k9s.tgz && cd -
 RUN set -x; cd "$(mktemp -d)" \
     && curl -fsSLO "https://storage.googleapis.com/krew/v0.2.1/krew.{tar.gz,yaml}" \
     && tar zxvf krew.tar.gz \
     && ./krew-"$(uname | tr '[:upper:]' '[:lower:]')_amd64" install --manifest=krew.yaml --archive=krew.tar.gz \
-    && echo "export PATH=\"${KREW_ROOT:-$HOME/.krew}/bin:$PATH\"" >> /root/.bashrc \
-    && kubectl krew update
+    && echo "export PATH=\"${KREW_ROOT:-$HOME/.krew}/bin:$PATH\"" >> /root/.bashrc
 RUN dpkg -i /root/bat.deb
 RUN mkdir -p /root/.bluemix/plugins/container-service/clusters
 COPY bash_aliases /root/.bash_aliases
