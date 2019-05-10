@@ -1,12 +1,14 @@
 FROM ubuntu:18.04 
 LABEL maintainer="jpapejr@icloud.com"
 ENV TERM xterm-256color
-RUN apt update && apt install curl bash-completion vim -y && apt clean
+RUN apt update && apt install curl bash-completion vim wget unzip -y && apt clean
 RUN curl -sL https://ibm.biz/idt-installer | bash
 ADD https://github.com/wercker/stern/releases/download/1.10.0/stern_linux_amd64 /usr/local/bin/stern
 ADD https://github.com/stedolan/jq/releases/download/jq-1.5/jq-linux64 /usr/local/bin/jq
 ADD https://github.com/sharkdp/bat/releases/download/v0.10.0/bat-musl_0.10.0_amd64.deb /root/bat.deb
 ADD https://github.com/derailed/k9s/releases/download/0.6.5/k9s_0.6.5_Linux_x86_64.tar.gz /usr/local/bin/k9s.tgz
+ADD https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64.zip /usr/local/bin
+RUN cd /usr/local/bin && unzip -d . ngrok-stable-linux-amd64.zip
 RUN cd /usr/local/bin/ && tar xvfz /usr/local/bin/k9s.tgz && cd -
 RUN set -x; cd "$(mktemp -d)" \
     && curl -fsSLO "https://storage.googleapis.com/krew/v0.2.1/krew.{tar.gz,yaml}" \
