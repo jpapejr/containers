@@ -6,7 +6,7 @@
 
 # for region in us-east us-south uk-south eu-central ap-north ap-south; do 
 #   ibmcloud ks region-set $region; 
-  for i in `ibmcloud ks clusters | awk '!/Name|OK/{print $1}'`; do 
+  for i in `ibmcloud ks clusters -s | awk '!/Name|OK|^ /{print $1}'`; do 
     ibmcloud ks cluster-config --export $i | awk -F "=" '{print $NF}'; 
   done; 
 # done
