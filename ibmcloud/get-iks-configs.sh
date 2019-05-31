@@ -14,6 +14,7 @@ username="jtpape@us.ibm.com" #set to IBM ID used with ibmcloud login
 clustersdir=~/.bluemix/plugins/container-service/clusters
 
 rm -fr $clustersdir
+rm -f ~/.kube/*.pem
 for i in `ibmcloud ks clusters -s | awk '!/Name|OK|^ /{print $1}'`; do 
     ibmcloud ks cluster-config --export $i | awk -F "=" '{print $NF}'; 
 done; 
