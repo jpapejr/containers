@@ -31,3 +31,4 @@ do
 done < <(find $clustersdir -type f -name "*.yml" -print0)
 export KUBECONFIG=$mergedconfig
 kubectl config view > "$HOME/.kube/config"
+find ~/.bluemix/plugins/container-service/clusters -name *.pem -exec cp '{}' ~/.kube/ \;
