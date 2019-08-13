@@ -109,6 +109,7 @@ RUN dpkg -i /root/bat.deb \
     &&  echo "source /usr/local/ibmcloud/autocomplete/zsh_autocomplete " >> /root/.zshrc \
     && mkdir -p /root/.kube
 
+ENTRYPOINT [ "/entry.sh" ]
 ########################
 ### END customization
 ########################
