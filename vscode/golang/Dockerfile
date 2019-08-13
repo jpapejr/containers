@@ -70,7 +70,7 @@ RUN apt-get update \
 ########################
 ### Start customization
 ########################
-RUN apt update && apt install -y zsh curl unzip wget software-properties-common iputils-ping dnsutils \
+RUN apt update && apt install -y zsh curl unzip wget software-properties-common iputils-ping dnsutils openssh-server \
     && apt autoremove -y \
     && apt clean -y \
     && rm -rf /var/lib/apt/lists/*
