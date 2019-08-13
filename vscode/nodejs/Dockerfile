@@ -41,7 +41,9 @@ ENV DEBIAN_FRONTEND=dialog
 ### Start customization
 ########################
 RUN apt update && apt install -y zsh curl unzip wget software-properties-common iputils-ping dnsutils openssh-server
-RUN /usr/sbin/update-rc.d ssh defaults
+ADD entry.sh /
+RUN chmod +x /entry.sh
+
 
 RUN wget https://github.com/openshift/origin/releases/download/v3.11.0/openshift-origin-client-tools-v3.11.0-0cbc58b-linux-64bit.tar.gz
 RUN tar xvfz openshift-origin-client-tools-v3.11.0-0cbc58b-linux-64bit.tar.gz \
@@ -72,6 +74,7 @@ RUN dpkg -i /root/bat.deb \
     &&  echo "source /usr/local/ibmcloud/autocomplete/zsh_autocomplete " >> /root/.zshrc \
     && mkdir -p /root/.kube
 
+ENTRYPOINT [ "/entry.sh" ]
 ########################
 ### END customization
 ########################
