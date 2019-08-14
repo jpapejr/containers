@@ -80,6 +80,7 @@ RUN chmod +x /entry.sh
 
 RUN add-apt-repository -y ppa:projectatomic/ppa
 RUN curl -fsSL https://download.docker.com/linux/debian/gpg | sudo apt-key add -
+RUN sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/debian $(lsb_release -cs) stable"
 
 RUN wget https://github.com/openshift/origin/releases/download/v3.11.0/openshift-origin-client-tools-v3.11.0-0cbc58b-linux-64bit.tar.gz
 RUN tar xvfz openshift-origin-client-tools-v3.11.0-0cbc58b-linux-64bit.tar.gz \
