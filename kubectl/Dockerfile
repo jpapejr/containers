@@ -1,10 +1,17 @@
-FROM ubuntu:18.04 
-LABEL maintainer="jpapejr@icloud.com"
-ENV TERM xterm-256color
-RUN apt update &&  apt install -y apt-transport-https curl gnupg \
-    && curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg |  apt-key add - \ 
-    && touch /etc/apt/sources.list.d/kubernetes.list && echo "deb http://apt.kubernetes.io/ kubernetes-xenial main" |  tee -a /etc/apt/sources.list.d/kubernetes.list \
-    && apt update && apt install -y kubectl && apt clean
+FROM jpapejr/command_runner:latest
 
+ENV KUBECTL_VERSION="v1.15.0"
 
-ENTRYPOINT ["/usr/bin/kubectl"]
+RUN apk add --update ca-certificates openssh-client \
+  jq curl bash git gcc g++ make libffi-dev openssl-dev \
+  && curl -o /usr/local/bin/kubectl https://storage.googleapis.com/kubernetes-release/release/${KUBECTL_VERSION}/bin/linux/amd64/kubectl \
+  && chmod +x /usr/local/bin/kubectl \
+  && apk add python python-dev py-pip build-base \
+  && rm /var/cache/apk/* \
+  && pip install --upgrade pip \
+  && pip install requests pytest pykube
+
+EXPOSE 8000
+EXPOSE 8001
+
+CMD ["/usr/local/bin/kubectl version --client"]
