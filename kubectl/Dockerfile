@@ -15,8 +15,9 @@ RUN apk add --update ca-certificates openssh-client \
 RUN curl -fsSLO "https://storage.googleapis.com/krew/v0.2.1/krew.{tar.gz,yaml}" && tar zxvf krew.tar.gz \
     && ./krew-linux_amd64 install krew  && mv /root/.krew/store/krew/*/krew /usr/local/bin/kubectl-krew
 
+ENV PATH /home/user/.krew/bin:$PATH
 RUN chmod -R ugo+rwx /tmp
-RUN ls -ltra /tmp
+RUN ls -ltra /root/.krew/store
 EXPOSE 8000
 EXPOSE 8001
 
