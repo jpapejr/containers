@@ -1,6 +1,6 @@
 FROM jpapejr/command_runner:latest
 
-ENV KUBECTL_VERSION="v1.13.0"
+ENV KUBECTL_VERSION="v1.15.0"
 
 RUN apk add --update ca-certificates openssh-client \
   jq curl bash git gcc g++ make libffi-dev openssl-dev \
@@ -15,7 +15,8 @@ RUN apk add --update ca-certificates openssh-client \
 RUN curl -fsSLO "https://storage.googleapis.com/krew/v0.2.1/krew.{tar.gz,yaml}" && tar zxvf krew.tar.gz \
     && ./krew-linux_amd64 install krew  && mv /root/.krew/store/krew/*/krew /usr/local/bin/kubectl-krew
 
-
+RUN chmod -R ugo+rwx /tmp
+RUN ls -ltra /tmp
 EXPOSE 8000
 EXPOSE 8001
 
