@@ -1,6 +1,6 @@
 FROM jpapejr/command_runner:latest
 
-ENV HELM_VERSION="v2.14.3"
+ENV HELM_VERSION="2.14.3"
 
 RUN apk add --update ca-certificates openssh-client \
   jq curl bash git gcc g++ make libffi-dev openssl-dev \
