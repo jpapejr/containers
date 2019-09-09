@@ -1,4 +1,4 @@
-FROM alpine:3.4
+FROM alpine:latest
 
 RUN apk add --update ca-certificates openssh-client \
   jq curl bash git gcc g++ gnupg make libffi-dev openssl-dev
