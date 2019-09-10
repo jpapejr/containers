@@ -33,11 +33,11 @@ RUN ALPINE_GLIBC_BASE_URL="https://github.com/sgerrand/alpine-pkg-glibc/releases
 
 ENV LANG=C.UTF-8
 
-ENV APPSODY_VERSION="0.4.1"
+ENV APPSODY_VERSION="0.4.4"
 
-RUN apk add --update ca-certificates openssh-client \
+RUN apk add --update ca-certificates openssh-client docker \
   jq curl bash git gcc g++ make libffi-dev openssl-dev \
-  && curl -L  https://github.com/appsody/appsody/releases/download/${APPSODY_VERSION}/appsody-${APPSODY_VERSION}-linux-amd64.tar -o /tmp/appsody.tar \
+  && curl -L  https://github.com/appsody/appsody/releases/download/${APPSODY_VERSION}/appsody-${APPSODY_VERSION}-linux-amd64.tar.gz -o /tmp/appsody.tar \
   && cd /tmp && tar xvf appsody.tar \
   && mv ./appsody /usr/local/bin/appsody \
   && chmod +x /usr/local/bin/appsody \
