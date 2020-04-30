@@ -1,0 +1,53 @@
+{
+    "apiVersion": "image.openshift.io/v1",
+    "kind": "ImageStream",
+    "metadata": {
+        "annotations": {
+            "openshift.io/display-name": "Rust"
+        },
+        "name": "rust"
+    },
+    "spec": {
+        "tags": [
+            {
+                "name": "latest",
+                "annotations": {
+                    "description": "Build and run Rust applications on RHEL 8. For more information about using this builder image, including OpenShift considerations, see https://github.com/sclorg/rust-container/blob/master/README.md.\n\nWARNING: By selecting this tag, your application will automatically update to use the latest version of Rust available on OpenShift, including major version updates.",
+                    "iconClass": "",
+                    "openshift.io/display-name": "Rust (Latest)",
+                    "openshift.io/provider-display-name": "",
+                    "sampleRepo": "",
+                    "supports": "rust",
+                    "tags": "builder,rust"
+                },
+                "from": {
+                    "kind": "ImageStreamTag",
+                    "name": "1.41.0"
+                },
+                "referencePolicy": {
+                    "type": "Local"
+                }
+            },
+            {
+                "name": "1.41.0",
+                "annotations": {
+                  "description": "Build and run Rust 1.41.0 applications on RHEL 7. For more information about using this builder image, including OpenShift considerations, see https://github.com/sclorg/rust-container/blob/master/README.md",
+                  "iconClass": "",
+                  "openshift.io/display-name": "Rust 1.41.0",
+                  "openshift.io/provider-display-name": "",
+                  "sampleRepo": "",
+                  "supports": "rust",
+                  "tags": "builder,rust",
+                  "version": "1.41.0"
+                },
+                "from": {
+                    "kind": "DockerImage",
+                    "name": "registry.redhat.io/rhel8/rust-toolset"
+                },
+                "referencePolicy": {
+                    "type": "Local"
+                }
+            }
+        ]
+    }
+}
