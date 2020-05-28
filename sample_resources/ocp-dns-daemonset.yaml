@@ -1,0 +1,78 @@
+# ----------------------------------------------------------------------------
+# Title: Updating DNS resolution on Openshift worker nodes.
+# Author: Ravi Konuru (rkonuru@us.ibm.com)
+# Last Updated: 5/28/20
+
+# How to use:
+# 1. Update the PRIVATE_DNS_1 and PRIVATE_DNS_2 variables with your own IP.
+#    Be CAREFUL OF SPACING and all lines WITHIN SHELL SCRIPT SECTION should
+#    END WITH SEMI-COLON (;)! YOU SHOULD NOT NEED TO MAKE ANY OTHER CHANGES.
+# 2. Run "oc apply -f daemonset-updatedns.yaml"
+# 3. Run "oc get pods". You should see new "updatedns-xxxxx" pods which
+#    will reach a "Running" state within a few seconds.
+# 4. To view the logs and status of this script, run "kubectl logs <podname>".
+#    (The same log messages will appear within IBM LogDNA for Log Analysis if
+#    it has been configured with your ROKS Cluster.)
+# ----------------------------------------------------------------------------
+
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: updatedns
+spec:
+  selector:
+    matchLabels:
+      name: updatedns
+  template:
+    metadata:
+      labels:
+        name: updatedns
+    spec:
+      hostNetwork: true
+      hostPID: true
+      hostIPC: true
+      containers:
+        - resources:
+            requests:
+              cpu: 0.1
+          securityContext:
+            privileged: true
+          image: alpine
+          name: updatedns
+          command: ["/bin/sh", "-c"]
+          args:
+            - >
+              export PRIVATE_DNS_1=10.240.0.10;
+              export PRIVATE_DNS_2=10.240.0.11;
+
+              HOSTNAME=`hostname`;
+              echo "";
+              echo "Running updatedns on worker node $HOSTNAME";
+              echo "=== current contents ====";
+              cat /host/etc/resolv.conf;
+              echo "";
+              echo "Making a backup copy /etc/resolv.conf before appending DNS servers $PRIVATE_DNS_1 and $PRIVATE_DNS_2.";
+              echo "-------------------------------------------------------";
+              cp /host/etc/resolv.conf /host/etc/resolv.conf.org;
+
+              echo ";  " >> /host/etc/resolv.conf;
+              echo "; added by os-updatedns daemonset. " >> /host/etc/resolv.conf;
+              echo nameserver $PRIVATE_DNS_1 >> /host/etc/resolv.conf;
+              echo nameserver $PRIVATE_DNS_2 >> /host/etc/resolv.conf;
+              echo "";
+              echo "====Updated DNS configuration =======";
+              echo "";
+              cat /host/etc/resolv.conf;
+              echo "Finished. Pod going to sleep.";
+              echo "";
+              while true; do
+                sleep 100000;
+              done;
+
+          volumeMounts:
+            - name: host-volume
+              mountPath: /host
+      volumes:
+        - name: host-volume
+          hostPath:
+            path: /
