@@ -28,3 +28,4 @@ spec:
         operator: Exists
 ```
 
+> Reference thread from GitHub issue - https://github.com/rancher/k3s/issues/1401
