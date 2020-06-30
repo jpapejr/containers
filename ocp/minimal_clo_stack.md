@@ -35,3 +35,22 @@ spec:
       type: fluentd
       fluentd: {}
 ```
+
+## LogForward API
+``` yaml
+apiVersion: logging.openshift.io/v1alpha1
+kind: LogForwarding
+metadata:
+  name: instance
+  namespace: openshift-logging
+spec:
+  outputs:
+    - name: insecureforward
+      type: forward
+      endpoint: 'host:port'
+  pipelines:
+    - name: clo-default-app-pipeline
+      inputSource: logs.app
+      outputRefs:
+        - insecureforward
+ ```
