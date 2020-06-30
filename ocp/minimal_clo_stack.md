@@ -45,12 +45,12 @@ metadata:
   namespace: openshift-logging
 spec:
   outputs:
-    - name: insecureforward
+    - endpoint: 'host:port'
+      name: insecureforward
       type: forward
-      endpoint: 'host:port'
   pipelines:
-    - name: clo-default-app-pipeline
-      inputSource: logs.app
+    - inputSource: logs.app
+      name: container-logs
       outputRefs:
         - insecureforward
  ```
