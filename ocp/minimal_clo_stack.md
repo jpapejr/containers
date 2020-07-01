@@ -6,6 +6,8 @@ kind: ClusterLogging
 metadata:
   name: instance
   namespace: openshift-logging
+  annotations:
+    clusterlogging.openshift.io/logforwardingtechpreview: enabled
 spec:
   managementState: Managed
   logStore:
