@@ -36,5 +36,5 @@ calicoctl apply -f calico-policies/private-network-isolation/calico-v3/$SECURE_R
 calicoctl apply -f calico-policies/private-network-isolation/calico-v3/$SECURE_REGION/allow-vrrp-private.yaml -c "$CALICO_CONFIG"
 calicoctl apply -f calico-policies/private-network-isolation/calico-v3/$SECURE_REGION/deny-all-private-default.yaml -c "$CALICO_CONFIG"
 
-
-
+cd -
+rm -fr /tmp/kube-samples
