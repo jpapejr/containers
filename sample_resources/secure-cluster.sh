@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 # Secure IKS/ROKS public and private interfaces
 # References:
 # - https://cloud.ibm.com/docs/containers?topic=containers-network_policies#isolate_workers_public
