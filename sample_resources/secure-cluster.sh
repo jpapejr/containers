@@ -20,8 +20,8 @@ cd /tmp/kube-samples
 calicoctl apply -f calico-policies/public-network-isolation/$SECURE_REGION/allow-egress-pods-public.yaml -c "$CALICO_CONFIG"
 calicoctl apply -f calico-policies/public-network-isolation/$SECURE_REGION/allow-ibm-ports-public.yaml -c "$CALICO_CONFIG"
 calicoctl apply -f calico-policies/public-network-isolation/$SECURE_REGION/allow-public-service-endpoint.yaml -c "$CALICO_CONFIG"
-calicoctl apply -f calico-policies/public-network-isolation/$SECURE_REGION/deny-all-outbound.yaml -c "$CALICO_CONFIG"
-calicoctl apply -f calico-policies/public-network-isolation/$SECURE_REGION/dallow-public-services-pods.yaml -c "$CALICO_CONFIG"
+calicoctl apply -f calico-policies/public-network-isolation/$SECURE_REGION/deny-all-outbound-public.yaml -c "$CALICO_CONFIG"
+calicoctl apply -f calico-policies/public-network-isolation/$SECURE_REGION/allow-public-services-pods.yaml -c "$CALICO_CONFIG"
 calicoctl apply -f calico-policies/public-network-isolation/$SECURE_REGION/allow-public-services.yaml -c "$CALICO_CONFIG"
 
 #Private interface policies (with optionals)
