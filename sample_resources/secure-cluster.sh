@@ -5,7 +5,7 @@
 # - https://cloud.ibm.com/docs/containers?topic=containers-network_policies#isolate_workers
 # - https://github.com/IBM-Cloud/kube-samples/tree/master/calico-policies
 
-if [ -z "$SECURE_REGION" || -z "$CALICO_CONFIG" ]
+if test  -z "$SECURE_REGION" || test -z "$CALICO_CONFIG";
   then
     echo "Supply a region value to secure a cluster in that region: (Valid regions: au-syd, eu-de, eu-gb, jp-tok, us-east, us-south)"
     exit 99
