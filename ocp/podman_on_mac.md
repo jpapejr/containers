@@ -7,3 +7,6 @@
 
 
 For easy access to step 3 - create an alias or a script at `/usr/local/bin/podman` that calls the command in step 3
+
+
+**Note - VirtualBox is needed for this solution**
