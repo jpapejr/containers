@@ -45,7 +45,7 @@ items:
         namespace: ibm-operators
   - apiVersion: v1
     data:
-      api-key: eExoeDQyOE5kOHMyQzlsaDRIaDJjTXZNSUF5YlBSREdWaEVnMUFYYTc4YVo=
+      api-key: <base64_encoded_apikey>
       region: dXMtc291dGg=
     kind: Secret
     metadata:
