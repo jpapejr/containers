@@ -535,7 +535,6 @@ items:
                 - --tls-private-key-file=/var/run/serving-cert/tls.key
                 - --logtostderr=true
                 - --prometheus-url=http://prometheus-operated.metrics-test.svc:9090/
-                - --prometheus-token-file=/etc/adapter/token.txt
                 - --metrics-relist-interval=1m
                 - --v=4
                 - --config=/etc/adapter/config.yaml
