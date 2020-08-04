@@ -35,8 +35,8 @@ items:
       name: cluster-admin
     subjects:
     - kind: ServiceAccount
-    name: prometheus-operator
-    namespace: metrics-test
+      name: prometheus-operator
+      namespace: metrics-test
   - # prom operator setup
     apiVersion: operators.coreos.com/v1
     kind: OperatorGroup
@@ -550,16 +550,11 @@ items:
                   readOnly: true
                 - mountPath: /tmp
                   name: tmp-vol
-                - mountPath: /etc/adapter/
-                  name: sysdig-token
-                  readOnly: true
+
           volumes:
             - name: volume-serving-cert
               secret:
                 secretName: prometheus-adapter-tls
-            - name: sysdig-token
-              secret:
-                secretName: sysdig-token
             - name: config
               configMap:
                 name: adapter-config
