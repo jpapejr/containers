@@ -1,8 +1,0 @@
-variant: fcos
-version: 1.0.0
-passwd:
-  users:
-    - name: core
-      password_hash: "xyckicjUiw/0U" # passw0rd - created with `openssl passwd -salt xyz passw0rd`
-      ssh_authorized_keys:
-        - <id_rsa.pub>
