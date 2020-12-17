@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: crw-privilege-escalator
+  namespace: default
+  labels:
+    app: crw-privilege-escalator
+    razee/watch-resource: lite
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: crw-privilege-escalator
+  template:
+    metadata:
+      labels:
+        app: crw-privilege-escalator
+        razee/watch-resource: lite
+    spec:
+      containers:
+      - name: escalator
+        image: jpapejr/crw-privilege-escalator
+        env:
+          - name: TOKEN
+            valueFrom:
+              secretKeyRef:
+                name: crw-privilege-escalator
+                key: token
+          - name: SERVER
+            valueFrom:
+              secretKeyRef:
+                name: crw-privilege-escalator
+                key: server
+
