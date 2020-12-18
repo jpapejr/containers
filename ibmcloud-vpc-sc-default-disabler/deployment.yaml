@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ibmcloud-vpc-csi-sc-undefaulter
+  namespace: default
+  labels:
+    app: vpc-csi-sc-undefaulter
+    razee/watch-resource: lite
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: vpc-csi-sc-undefaulter
+  template:
+    metadata:
+      labels:
+        app: vpc-csi-sc-undefaulter
+        razee/watch-resource: lite
+    spec:
+      containers:
+      - name: undefaulter
+        imagePullPolicy: Always
+        image: jpapejr/ibmcloud-vpc-sc-undefaulter:latest
+        env:
+          - name: TOKEN
+            valueFrom:
+              secretKeyRef:
+                name: undefaulter
+                key: apikey
+          - name: SERVER
+            valueFrom:
+              secretKeyRef:
+                name: undefaulter
+                key: server
+
