@@ -1,0 +1,19 @@
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: devpod
+spec:
+  volumes:
+  - name: code
+    persistentVolumeClaim:
+      claimName: code
+  containers:
+    - image: docker.io/jpapejr/containerdevbox:latest
+      name: devbox
+      volumeMounts:
+       - name: code
+         mountPath: /root/projects
+      ports:
+       - containerPort: 8448
+         hostPort: 8448
