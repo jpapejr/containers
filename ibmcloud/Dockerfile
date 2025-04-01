@@ -8,7 +8,7 @@ WORKDIR "/home/user"
 
 RUN apk update && \
     apk add --no-cache bash curl git && \
-    mkdir /home/user/bin && \
+    mkdir -p /home/user/bin && \
     curl -fsSL https://clis.cloud.ibm.com/install/linux | sh && \ 
     ibmcloud plugin install container-service -r Bluemix && \
     ibmcloud plugin update container-registry -r Bluemix && \
