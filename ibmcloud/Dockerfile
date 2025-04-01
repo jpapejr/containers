@@ -21,7 +21,8 @@ RUN apk update && \
     curl -L https://mirror.openshift.com/pub/openshift-v4/amd64/clients/ocp/${OC_VERSION}/openshift-client-amd64-linux.tar.gz | tar xz oc && \
     chmod +x ./oc && \
     mv oc /home/user/bin
-    
+
+USER 10001
 
 ENTRYPOINT ["bash"]
 EXPOSE 8080-8085
