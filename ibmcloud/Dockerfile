@@ -1,4 +1,4 @@
-FROM quay.io/devfile/universal-developer-image:ubi9-latest
+FROM registry.redhat.io/ubi9-minimal@sha256:ac61c96b93894b9169221e87718733354dd3765dd4a62b275893c7ff0d876869
 
 USER 0
 
