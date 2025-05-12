@@ -12,7 +12,7 @@ RUN apt update && apt install -y  curl tar jq gzip && \
 
 WORKDIR /home/nonroot
 
-RUN curl -fsSLo ic.tar.gz https://download.clis.cloud.ibm.com/ibm-cloud-cli/2.33.1/IBM_Cloud_CLI_2.33.1_${ARCH}.tar.gz  && \
+RUN curl -fsSLo ic.tar.gz https://download.clis.cloud.ibm.com/ibm-cloud-cli/2.34.0/IBM_Cloud_CLI_2.34.0_${ARCH}.tar.gz  && \
     tar xvfz ic.tar.gz && \
     Bluemix_CLI/install && \
     ibmcloud plugin install container-service  && \
